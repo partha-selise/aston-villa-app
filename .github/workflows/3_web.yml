@@ -94,7 +94,8 @@ jobs:
       - name: updating the image tag in respective values file.
         run: |
           cat ./values-file/astonvilla-app.values.yaml
-          yq eval '.image.tag = ${{ env.IMAGE_TAG }}' -i ./values-file/astonvilla-app.values.yaml
-          cat ./values-file/astonvilla-app.values.yaml
+          #yq eval '.image.tag = ${{ env.IMAGE_TAG }}' -i ./values-file/astonvilla-app.values.yaml
+          sed -i 's|image.tag:.*|image.tag: ${{ env.IMAGE_TAG }}|' ./values-file/astonvilla-app.values.yaml
+          cat ./values-file/astonvilla-app.values.yaml 
      
      
