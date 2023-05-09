@@ -23,6 +23,8 @@ on:
         required: true
       ACR_PASSWORD:
         required: true
+      MY_GITHUB_PAT:
+        required: true
            
 
 env:

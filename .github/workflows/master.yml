@@ -46,4 +46,5 @@ jobs:
       SELISE_GITHUB_PAT: ${{ secrets.SELISE_GITHUB_PAT }}
       ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
       ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
+      MY_GITHUB_PAT: ${{ secrets.MY_GITHUB_PAT }}
     needs: [test-job, sonarqube-job]
