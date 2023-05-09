@@ -35,6 +35,9 @@ env:
 
 jobs:
   build-image:
+    permissions:
+      contents: read
+      id-token: write
     runs-on: ubuntu-latest
     steps:
       #Checks out the repository this file is in
