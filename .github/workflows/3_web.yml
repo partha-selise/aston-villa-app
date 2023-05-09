@@ -95,7 +95,8 @@ jobs:
         run: |
           cat ./values-file/astonvilla-app.values.yaml
           #yq eval '.image.tag = ${{ env.IMAGE_TAG }}' -i ./values-file/astonvilla-app.values.yaml
-          sed -i 's|image.tag:.*|image.tag: ${{ env.IMAGE_TAG }}|' ./values-file/astonvilla-app.values.yaml
+          yq eval ".image.tag = \"${{ env.IMAGE_TAG }}\"" -i ./values-file/astonvilla-app.values.yaml
+          #sed -i 's|image.tag:.*|image.tag: ${{ env.IMAGE_TAG }}|' ./values-file/astonvilla-app.values.yaml
           echo ""
           cat ./values-file/astonvilla-app.values.yaml | grep tag
      
