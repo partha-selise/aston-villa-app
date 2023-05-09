@@ -87,7 +87,7 @@ jobs:
       - name: Checkout the argo repository.
         uses: actions/checkout@v3
         with:
-          repository: 'git@github.com:partha-selise/test-argo-target-repo.git'
+          repository: 'partha-selise/test-argo-target-repo.git'
           token: ${{ secrets.MY_GITHUB_PAT }}
           ref: 'main'
 
