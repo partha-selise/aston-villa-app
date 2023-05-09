@@ -49,4 +49,8 @@ jobs:
       ClUSTER_RESOURCE_GROUP: ${{ secrets.ClUSTER_RESOURCE_GROUP }}
       CLUSTER_NAME: ${{ secrets.PROD_CLUSTER }}
       ACR_RESOURCE_GROUP: ${{ secrets.ACR_RESOURCE_GROUP }}
+      
+      ACR_PASS: ${{ secrets.ACR_PASSWORD }}
+      ACR_USER: ${{ secrets.ACR_USERNAME }}
+
     needs: [test-job, sonarqube-job]

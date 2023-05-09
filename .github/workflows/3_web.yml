@@ -28,6 +28,10 @@ on:
       CLUSTER_NAME:
         required: true
       ACR_RESOURCE_GROUP:
+        required: true
+      ACR_PASS:
+        required: true
+      ACR_USER:
         required: true     
 
 env:
