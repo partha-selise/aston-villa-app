@@ -57,27 +57,17 @@ jobs:
         with:
           varFilePath: ./.github/variables/versions.env
 
-      # Logs in with your Azure credentials
-      # - name: Azure login
-      #   uses: azure/login@v1.4.3
-      #   with:
-      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      # - name: Build and push image to ACR
-      #   run: |
-      #     az acr build --image ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ inputs.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ secrets.AZURE_CONTAINER_REGISTRY }} -g ${{ secrets.ACR_RESOURCE_GROUP }} --file ${{ env.DOCKERFILE }}
-
       - name: Login to acr
         uses: azure/docker-login@v1
         with: 
-          login-server: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
-          username: ${{ secrets.ACR_USER }}
-          password: ${{ secrets.ACR_PASS }}
+          login-server: selise.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
 
       - name: Build and push to ACR
         run: |
-          docker image build -t ${{ secrets.AZURE_CONTAINER_REGISTRY }}/${{ inputs.CONTAINER_NAME }}:${{ github.sha }}
-          docker image push ${{ secrets.AZURE_CONTAINER_REGISTRY }}/${{ inputs.CONTAINER_NAME }}:${{ github.sha }}
+          docker image build -t selise.azurecr.io/${{ inputs.CONTAINER_NAME }}:${{ github.sha }} .
+          docker image push selise.azurecr.io/${{ inputs.CONTAINER_NAME }}:${{ github.sha }}
 
       - name: Set Git commit SHA as environment variable
         run: |
