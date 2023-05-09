@@ -4,10 +4,7 @@ on:
   push:
     branches:
       - master  
-  pull_request:
-    types: [opened]
-    branches:
-      - master
+      
 env:
   RUN_UNIT_TEST: 'false'
   RUN_SONARQUBE: 'false'
