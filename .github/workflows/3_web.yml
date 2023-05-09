@@ -1,0 +1,101 @@
+name: Web-Build and push at ACR
+
+on:
+  workflow_call:
+    inputs:
+      VERSION:
+        required: true
+        type: string
+      CONTAINER_NAME:
+        required: true
+        type: string
+      NAMESPACE:
+        required: true
+        type: string
+      SERVICE_NAME:
+        required: true
+        type: string
+
+    secrets:
+      SELISE_GITHUB_PAT:
+        required: true
+      AZURE_CREDENTIALS:
+        required: true
+      AZURE_CONTAINER_REGISTRY:
+        required: true
+      ClUSTER_RESOURCE_GROUP:
+        required: true
+      CLUSTER_NAME:
+        required: true
+      ACR_RESOURCE_GROUP:
+        required: true     
+
+env:
+  SERVICE_TYPE: "webclient"
+
+jobs:
+  build-image:
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      #Checks out the repository this file is in
+      - uses: actions/checkout@v3
+        with:
+          submodules: "true" 
+          token: ${{ secrets.SELISE_GITHUB_PAT }}
+
+      - name: Update submodule 
+        run: |  
+          git submodule update --init
+            
+      - name: Set Environment Variables
+        uses: ./.github/actions/setvars
+        with:
+          varFilePath: ./.github/variables/vars.env
+          
+      - name: Set Versions
+        uses: ./.github/actions/setvars
+        with:
+          varFilePath: ./.github/variables/versions.env
+
+      # Logs in with your Azure credentials
+      - name: Azure login
+        uses: azure/login@v1.4.3
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Build and push image to ACR
+        run: |
+          az acr build --image ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ inputs.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ secrets.AZURE_CONTAINER_REGISTRY }} -g ${{ secrets.ACR_RESOURCE_GROUP }} --file ${{ env.DOCKERFILE }}
+
+      - name: Set Git commit SHA as environment variable
+        run: |
+          echo "COMMIT_SHA=${{ github.sha }}" >> $GITHUB_ENV
+          # echo "::set-output name=COMMIT_SHA::${{ github.sha }}"
+  
+  # triger-argo:
+  #   permissions:
+  #     contents: read
+  #     id-token: write
+  #   runs-on: ubuntu-latest
+  #   needs: [build-image]
+  #   steps:
+  #     - name: Set Environment Variables
+  #       uses: ./.github/actions/setvars
+  #       with:
+  #         varFilePath: ./.github/variables/vars.env
+
+  #     - name: Checkout the argo repository.
+  #       uses: actions/checkout@v3
+  #       with:
+  #         repository: 'git@github.com:partha-selise/test-argo-target-repo.git'
+  #         token: ${{ secrets.MY_GITHUB_PAT }}
+  #         ref: 'main'
+
+  #     - name: updating the image tag in respective values file.
+  #       run: |
+  #         commit_sha=${{ needs.build-image.outputs.COMMIT_SHA }}
+     
+     
