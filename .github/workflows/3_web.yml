@@ -40,6 +40,7 @@ jobs:
       #Checks out the repository this file is in
       - uses: actions/checkout@v3
         with:
+          ref: 'refs/heads/master'
           submodules: "true" 
           token: ${{ secrets.MY_GITHUB_PAT }}
 
