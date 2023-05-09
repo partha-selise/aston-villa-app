@@ -42,7 +42,6 @@ jobs:
         with:
           ref: 'refs/heads/master'
           submodules: "true" 
-          token: ${{ secrets.MY_GITHUB_PAT }}
 
       - name: Update submodule 
         run: |  
