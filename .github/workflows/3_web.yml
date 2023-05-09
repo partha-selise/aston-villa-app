@@ -19,23 +19,16 @@ on:
     secrets:
       SELISE_GITHUB_PAT:
         required: true
-      AZURE_CREDENTIALS:
+      ACR_USERNAME:
         required: true
-      AZURE_CONTAINER_REGISTRY:
+      ACR_PASSWORD:
         required: true
-      ClUSTER_RESOURCE_GROUP:
-        required: true
-      CLUSTER_NAME:
-        required: true
-      ACR_RESOURCE_GROUP:
-        required: true
-      ACR_PASS:
-        required: true
-      ACR_USER:
-        required: true     
+           
 
 env:
   SERVICE_TYPE: "webclient"
+  ACR_NAME: selise
+  IMAGE_TAG: ${{ github.sha }}
 
 jobs:
   build-image:
@@ -70,8 +63,8 @@ jobs:
 
       - name: Build and push to ACR
         run: |
-          docker image build -t selise.azurecr.io/${{ inputs.CONTAINER_NAME }}:${{ github.sha }} .
-          docker image push selise.azurecr.io/${{ inputs.CONTAINER_NAME }}:${{ github.sha }}
+          docker image build -t ${{ env.ACR_NAME }}.azurecr.io/${{ inputs.CONTAINER_NAME }}:${{ env.IMAGE_TAG }} .
+          docker image push ${{ env.ACR_NAME}}.azurecr.io/${{ inputs.CONTAINER_NAME }}:${{ env.IMAGE_TAG }}
 
       - name: Set Git commit SHA as environment variable
         run: |

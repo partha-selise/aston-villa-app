@@ -44,13 +44,6 @@ jobs:
       SERVICE_NAME: $SERVICE_NAME
     secrets:
       SELISE_GITHUB_PAT: ${{ secrets.SELISE_GITHUB_PAT }}
-      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-      AZURE_CONTAINER_REGISTRY: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
-      ClUSTER_RESOURCE_GROUP: ${{ secrets.ClUSTER_RESOURCE_GROUP }}
-      CLUSTER_NAME: ${{ secrets.PROD_CLUSTER }}
-      ACR_RESOURCE_GROUP: ${{ secrets.ACR_RESOURCE_GROUP }}
-      
-      ACR_PASS: ${{ secrets.ACR_PASSWORD }}
-      ACR_USER: ${{ secrets.ACR_USERNAME }}
-
+      ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
+      ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
     needs: [test-job, sonarqube-job]
