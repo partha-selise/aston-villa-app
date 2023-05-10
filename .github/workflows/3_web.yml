@@ -32,7 +32,7 @@ env:
   ACR_NAME: selise
   IMAGE_TAG: ${{ github.sha }}
   CI_COMMIT_AUTHOR: git-ci
-  CI_COMMIT_MESSAGE: Changing the image tag of helm values file: 
+  CI_COMMIT_MESSAGE: "Changing the image tag of helm values file: "
 
 jobs:
   build-image:
